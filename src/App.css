@@ -1,0 +1,54 @@
+.App {
+  text-align: center;
+}
+html, body{
+  background-color: #343332;
+  color:#a0daa9;
+  min-height: 100vh;
+  font-family: "Helvetica Neue";
+}
+
+
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: space-between;
+}
+.row{
+  flex:1;
+  min-height: 100%;
+}
+
+.map{
+  width: 100%
+}
+
+header{
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid #a0daa9;
+  margin: 5px;
+  height: 8%;
+}
+
+.main{
+  display: flex;
+  height: 92%;
+}
+
+
