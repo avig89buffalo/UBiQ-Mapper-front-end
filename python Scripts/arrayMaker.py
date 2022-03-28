@@ -29,14 +29,3 @@ with os.scandir(basePath) as entries:
     for entry in entries:
         if entry.is_file() and entry.name.endswith('csv'):
             createJson(entry)
-
-
-
-
-
-
-
-        
-        
-
-

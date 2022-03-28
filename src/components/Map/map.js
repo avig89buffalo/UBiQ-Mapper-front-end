@@ -73,6 +73,12 @@ export default function Map(props) {
             }
         });
 
+        //  map.current.addLayer({
+        //     'id': 'paths',
+        //     'type': 'circle',
+        //     'source': 'paths'
+        //     });
+
         map.current.addLayer({
             'id': 'paths',
             'type': 'line',
@@ -84,7 +90,7 @@ export default function Map(props) {
             'paint': {
             //'line-color': ['get', 'color'],
             'line-color': ['interpolate', ['linear'], ['get', 'value'], -3, 'red', 0, 'green', 3, 'blue'],
-            'line-width': 5
+            'line-width': 3
             
             }
             });

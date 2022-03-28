@@ -1,10 +1,11 @@
 import './App.css';
 import Map from './components/Map/map'
-import React, { useState, useEffect } from 'react';s
+import React, { useState, useEffect } from 'react'
 import road1 from "../src/cleaned/maple_ver_7_14_trip.csv.json"
 import road2 from "../src/cleaned/sweet_ver_7_14_trip.csv.json"
 import road3 from "../src/cleaned/grade_6136_ver_7_14_trip.csv.json"
 import road4 from "../src/cleaned/grade_8855_ver_7_14_trip.csv.json"
+import segs from "../src/cleaned/segmentsData.json"
 
 
 function App() {
@@ -13,10 +14,12 @@ function App() {
   var r2 = JSON.parse(road2);
   var r3 = JSON.parse(road3);
   var r4 = JSON.parse(road4);
+  var s = JSON.parse(segs);
   var data = r1.concat(r2);
   data = data.concat(r3);
   data = data.concat(r4);
-  console.log(data)
+  data = data.concat(s);
+ 
   const [dataSet, setDataSet] = useState(data)
 
   return (
