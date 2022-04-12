@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
 import './map.css'
+import EChart from '../ElevationChart/eChart'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoidG51amEiLCJhIjoiY2wwY3QwNDc5MDBicjNkazk1MWFxYW9lNCJ9.sN1R_K8_L8yNieXxbgKbRw';
 
@@ -14,12 +16,14 @@ export default function Map(props) {
     // const [datapoints,setDatapoints] = useState([])
     const [maploaded, setMapLoaded] = useState(false)
     const [mapData, setMapData] = useState([])
-
+    var gradeData = []
     
     const getAverage = (arr) => {
         let total = 0
+        gradeData = []
         for(const item of arr){
             total += item[2]
+            gradeData.push(item[2])
         }
 
         return (total/arr.length) 
@@ -28,6 +32,7 @@ export default function Map(props) {
 
     useEffect(() => {
         var allData = []
+        var b = true
         for (const d of props.dataSet){
             const grade = getAverage(d)
             var feature = {
@@ -38,8 +43,8 @@ export default function Map(props) {
                         ${1/(1+ Math.pow(2.718,- grade)) < 0.5 ? 182 : 73},
                         ${1/(1+ Math.pow(2.718,- grade))})` ,
                     'description': `Avg. elevation: ${grade}`,
-                    'value': grade
-                    
+                    'value': grade,
+                    'gradeData': gradeData
                 },
                 'geometry': {
                     'type': 'LineString',
@@ -101,7 +106,21 @@ export default function Map(props) {
     
                 popup.setLngLat(coordinates).setHTML(description).addTo(map.current);
             })
-    
+            
+            map.current.on('click', 'paths', e => {
+                const coordinates = [e.lngLat.lng, e.lngLat.lat]
+                const description = e.features[0].properties.description;
+                const coordinatesOnLine = e.features[0].properties.gradeData;
+                const placeholder = document.createElement('div');
+                placeholder.style.backgroundColor = '#343332';
+                placeholder.style.width = 500
+                ReactDOM.render(<EChart data = {coordinatesOnLine} />, placeholder);
+                //console.log("hi")
+                // map.bindPopup(div);
+                // map.openPopup();
+                popup2.setLngLat(coordinates).setDOMContent(placeholder).addTo(map.current);
+            })
+
             map.current.on('mouseleave', 'paths', () => {
                 map.current.getCanvas().style.cursor = '';
                 popup.remove();
@@ -133,7 +152,10 @@ export default function Map(props) {
         closeOnClick: false
         });
 
-
+        const popup2 = new mapboxgl.Popup({
+            closeButton: true,
+            closeOnClick: true
+            });
 
     useEffect(() => {
         if (!map.current) return; // wait for map to initialize
