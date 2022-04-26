@@ -4,19 +4,19 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const getAverage = (arr) => {
   let total = 0
   let chartData = []
-  let step = parseFloat(51)
+  let step = parseFloat(301)
   let dist = 0
   let j = parseFloat(0)
-  //50 coordinates = 10 m
+  //100 coordinates = 20 m
   for(var i = 0; i < arr.length; i++){
       j++;
       total += parseFloat(arr[i])
       if(j == step || i == arr.length - 1){
         let elev = -(total/j)
-        if (elev < 0)
-          elev = [elev, -3]
+        // if (elev < 0)
+        //   elev = [elev, -3]
        chartData.push({distance : dist, elevation: elev})
-       dist += 10
+       dist += 60
        total = 0
        j = 0
       }
@@ -28,14 +28,16 @@ export default class EChart extends PureComponent {
 
   render() {
     
-    var arr = this.props.data.split(",");
-    arr[0] = arr[0].slice(1, arr[0].length);
-    arr[arr.length - 1] = arr[arr.length - 1].slice(0, -1);
-    arr = Array.from(arr)
+    var arr = this.props.data
+    arr = arr.reverse()
+    // arr[0] = arr[0].slice(1, arr[0].length);
+    // arr[arr.length - 1] = arr[arr.length - 1].slice(0, -1);
+    // arr = Array.from(arr)
     let chartData = getAverage(arr);
+    //console.log(arr)
+    //const chartData = arr.map((x, i) => ({distance : i * 60, elevation: x}));
     //console.log(chartData)
-    //const data = arr.map(x => ({uv: -x}));
-    //console.log(data)
+
     return (
       <div style={{ width: '500px', backgroundColor: '#343332'}}>
         <h4>Elevation Statistics</h4>

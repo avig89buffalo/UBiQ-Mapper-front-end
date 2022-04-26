@@ -17,10 +17,15 @@ class App extends React.Component {
       var r3 = JSON.parse(road3);
       var r4 = JSON.parse(road4);
       var s = JSON.parse(segs);
-      var data = r1.concat(r2);
-      data = data.concat(r3);
-      data = data.concat(r4);
+      //var data = r1.concat(r2);
+      //data = data.concat(r3);
+      //data = data.concat(r4);
       // data = data.concat(s);
+      var data = []
+      data.push(r1)
+      data.push(r2)
+      data.push(r3)
+      data.push(r4)
       this.state = {
         dataSet: data
     };
@@ -33,9 +38,9 @@ async componentDidMount() {
   const headers = { 
     'Authorization': 'Bearer my-token',
 };
-  const response = await axios.post('https://req', body, {headers});
+  //const response = await axios.post('https://req', body, {headers});
   //this.setState({ dataSet: response.data});
-  console.log(response.data)
+  //console.log(response.data)
 }
 
 render(){

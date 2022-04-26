@@ -33,7 +33,8 @@ export default function Map(props) {
     useEffect(() => {
         var allData = []
         var b = true
-        for (const d of props.dataSet){
+        props.dataSet.forEach((seg, i) => {
+        for (const d of seg){
             const grade = getAverage(d)
             var feature = {
                 'type': 'Feature',
@@ -44,7 +45,8 @@ export default function Map(props) {
                         ${1/(1+ Math.pow(2.718,- grade))})` ,
                     'description': `Avg. elevation: ${grade}`,
                     'value': grade,
-                    'gradeData': gradeData
+                    'gradeData': gradeData,
+                    'SEGID': i
                 },
                 'geometry': {
                     'type': 'LineString',
@@ -53,7 +55,7 @@ export default function Map(props) {
             }
 
             allData.push(feature)
-        }
+        }})
         setMapData(allData)
     }, [props.dataSet])
 
@@ -111,10 +113,29 @@ export default function Map(props) {
                 const coordinates = [e.lngLat.lng, e.lngLat.lat]
                 const description = e.features[0].properties.description;
                 const coordinatesOnLine = e.features[0].properties.gradeData;
+                const SEGID = e.features[0].properties.SEGID;
+                // const relatedLinestrings = map.querySourceFeatures('paths', {
+                //     filter: ['in', 'SEGID', e.features[0].properties.SEGID]
+                //     });
+
+                //const uniqueLinestrings = getUniqueFeatures(relatedLinestrings, 'SEGID');
+ 
+               const relatedLinestrings = mapData.filter(item => { 
+                    if(SEGID == item.properties.SEGID) { 
+                         return item;
+                     }
+               });
+
+                // Total of all features.
+                const segData = relatedLinestrings.reduce((memo, feature) => {
+                    return memo.concat(feature.properties.gradeData);
+                }, []);
+                //console.log(segData)
+
                 const placeholder = document.createElement('div');
                 placeholder.style.backgroundColor = '#343332';
                 placeholder.style.width = 500
-                ReactDOM.render(<EChart data = {coordinatesOnLine} />, placeholder);
+                ReactDOM.render(<EChart data = {segData} />, placeholder);
                 //console.log("hi")
                 // map.bindPopup(div);
                 // map.openPopup();
@@ -127,7 +148,6 @@ export default function Map(props) {
                 });
 
     }, [maploaded, mapData])
-
 
     useEffect(() => {
         if(map.current) return;
