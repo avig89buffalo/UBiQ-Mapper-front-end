@@ -5,7 +5,7 @@ import os
 basePath = "."
 destPath = "."
 
-out = {'segment':{'segment_id': 1,'nodes':[]}}
+out = {'segment':{'segment_id': 2,'nodes':[]}}
 
 def createJson(file):
     with open(f'{basePath}/{file.name}','r',encoding='utf-8-sig') as csv_file:

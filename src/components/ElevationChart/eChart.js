@@ -4,10 +4,11 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 const getAverage = (arr) => {
   let total = 0
   let chartData = []
+  //100 coordinates = 20 m
   let step = parseFloat(301)
   let dist = 0
   let j = parseFloat(0)
-  //100 coordinates = 20 m
+
   for(var i = 0; i < arr.length; i++){
       j++;
       total += parseFloat(arr[i])
@@ -29,14 +30,10 @@ export default class EChart extends PureComponent {
   render() {
     
     var arr = this.props.data
-    arr = arr.reverse()
-    // arr[0] = arr[0].slice(1, arr[0].length);
-    // arr[arr.length - 1] = arr[arr.length - 1].slice(0, -1);
-    // arr = Array.from(arr)
-    let chartData = getAverage(arr);
+    //arr = arr.reverse()
+    //let chartData = arr
     //console.log(arr)
-    //const chartData = arr.map((x, i) => ({distance : i * 60, elevation: x}));
-    //console.log(chartData)
+    let chartData = getAverage(arr);
 
     return (
       <div style={{ width: '500px', backgroundColor: '#343332'}}>

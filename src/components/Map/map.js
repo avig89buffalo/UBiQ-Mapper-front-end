@@ -13,7 +13,6 @@ export default function Map(props) {
     const [lng, setLng] = useState(-78.79785);
     const [lat, setLat] = useState(42.99132);
     const [zoom, setZoom] = useState(15);
-    // const [datapoints,setDatapoints] = useState([])
     const [maploaded, setMapLoaded] = useState(false)
     const [mapData, setMapData] = useState([])
     var gradeData = []
@@ -33,9 +32,12 @@ export default function Map(props) {
     useEffect(() => {
         var allData = []
         var b = true
+        console.log(props.dataSet)
         props.dataSet.forEach((seg, i) => {
         for (const d of seg){
             const grade = getAverage(d)
+            var n = d.length
+            const step = Math.floor(d[n-1][3])
             var feature = {
                 'type': 'Feature',
                 'properties': {
@@ -46,6 +48,7 @@ export default function Map(props) {
                     'description': `Avg. elevation: ${grade}`,
                     'value': grade,
                     'gradeData': gradeData,
+                    'step': step,
                     'SEGID': i
                 },
                 'geometry': {
@@ -80,12 +83,6 @@ export default function Map(props) {
             }
         });
 
-        //  map.current.addLayer({
-        //     'id': 'paths',
-        //     'type': 'circle',
-        //     'source': 'paths'
-        //     });
-
         map.current.addLayer({
             'id': 'paths',
             'type': 'line',
@@ -105,7 +102,6 @@ export default function Map(props) {
             map.current.on('mouseenter', 'paths', e => {
                 const coordinates = [e.lngLat.lng, e.lngLat.lat]
                 const description = e.features[0].properties.description;
-    
                 popup.setLngLat(coordinates).setHTML(description).addTo(map.current);
             })
             
@@ -128,6 +124,7 @@ export default function Map(props) {
 
                 // Total of all features.
                 const segData = relatedLinestrings.reduce((memo, feature) => {
+                    //return memo.concat({distance: feature.properties.step,elevation: -feature.properties.value});
                     return memo.concat(feature.properties.gradeData);
                 }, []);
                 //console.log(segData)
@@ -136,9 +133,6 @@ export default function Map(props) {
                 placeholder.style.backgroundColor = '#343332';
                 placeholder.style.width = 500
                 ReactDOM.render(<EChart data = {segData} />, placeholder);
-                //console.log("hi")
-                // map.bindPopup(div);
-                // map.openPopup();
                 popup2.setLngLat(coordinates).setDOMContent(placeholder).addTo(map.current);
             })
 

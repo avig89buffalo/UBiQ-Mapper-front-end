@@ -6,21 +6,17 @@ import road1 from "../src/cleaned/maple_ver_7_14_trip.csv.json"
 import road2 from "../src/cleaned/sweet_ver_7_14_trip.csv.json"
 import road3 from "../src/cleaned/grade_6136_ver_7_14_trip.csv.json"
 import road4 from "../src/cleaned/grade_8855_ver_7_14_trip.csv.json"
-import segs from "../src/cleaned/segmentsData.json"
+import segs from "../src/cleaned/segs.json"
 
 class App extends React.Component {
   constructor(props) {
       super(props);
-      //currently fetching data from json files until backend APIs are ready
+      //fetching data from json files until backend APIs are ready
       var r1 = JSON.parse(road1);
       var r2 = JSON.parse(road2);
       var r3 = JSON.parse(road3);
       var r4 = JSON.parse(road4);
-      var s = JSON.parse(segs);
-      //var data = r1.concat(r2);
-      //data = data.concat(r3);
-      //data = data.concat(r4);
-      // data = data.concat(s);
+      // var s = segs;
       var data = []
       data.push(r1)
       data.push(r2)
@@ -34,13 +30,18 @@ class App extends React.Component {
 async componentDidMount() {
 
   //Bounding box for Buffalo
-  const body = { lat1: 42.88402366, lat2: 43.0139436, long1: -78.8246377, long2: -78.72325793 };
-  const headers = { 
-    'Authorization': 'Bearer my-token',
-};
-  //const response = await axios.post('https://req', body, {headers});
-  //this.setState({ dataSet: response.data});
-  //console.log(response.data)
+  const body = { "lat1": 42.88402366, "lat2": 43.0139436, "long1": -78.8246377, "long2": -78.72325793 };
+
+  const response = await axios.post('https://0ffd-2603-7080-2002-1cb-e424-3c7e-a6e-fe07.ngrok.io/segmentElevation/getSegmentElevationsForBoundingBox', body, {
+    headers: {
+    'Content-Type': 'application/json',
+    "Access-Control-Allow-Origin": "*",
+    }
+  });
+// console.log(response.data)
+// const temp = []
+// temp.push(response.data)
+//this.setState({ dataSet: response.data});
 }
 
 render(){
