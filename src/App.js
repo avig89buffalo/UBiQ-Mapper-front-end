@@ -12,18 +12,18 @@ class App extends React.Component {
   constructor(props) {
       super(props);
       //fetching data from json files until backend APIs are ready
-      var r1 = JSON.parse(road1);
-      var r2 = JSON.parse(road2);
-      var r3 = JSON.parse(road3);
-      var r4 = JSON.parse(road4);
+      // var r1 = JSON.parse(road1);
+      // var r2 = JSON.parse(road2);
+      // var r3 = JSON.parse(road3);
+      // var r4 = JSON.parse(road4);
       // var s = segs;
-      var data = []
-      data.push(r1)
-      data.push(r2)
-      data.push(r3)
-      data.push(r4)
+      // var data = []
+      // data.push(r1)
+      // data.push(r2)
+      // data.push(r3)
+      // data.push(r4)
       this.state = {
-        dataSet: data
+        dataSet: []
     };
   }
 
@@ -41,7 +41,7 @@ async componentDidMount() {
 // console.log(response.data)
 // const temp = []
 // temp.push(response.data)
-//this.setState({ dataSet: response.data});
+  this.setState({ dataSet: response.data});
 }
 
 render(){
