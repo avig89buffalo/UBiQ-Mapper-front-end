@@ -37,7 +37,7 @@ export default function Map(props) {
         for (const d of seg){
             const grade = getAverage(d)
             var n = d.length
-            const step = Math.floor(d[n-1][3])
+            // const step = Math.floor(d[n-1][3])
             var feature = {
                 'type': 'Feature',
                 'properties': {
@@ -48,7 +48,7 @@ export default function Map(props) {
                     'description': `Avg. elevation: ${grade}`,
                     'value': grade,
                     'gradeData': gradeData,
-                    'step': step,
+                    // 'step': step,
                     'SEGID': i
                 },
                 'geometry': {

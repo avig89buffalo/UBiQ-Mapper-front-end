@@ -32,16 +32,17 @@ async componentDidMount() {
   //Bounding box for Buffalo
   const body = { "lat1": 42.88402366, "lat2": 43.0139436, "long1": -78.8246377, "long2": -78.72325793 };
 
-  const response = await axios.post('https://0ffd-2603-7080-2002-1cb-e424-3c7e-a6e-fe07.ngrok.io/segmentElevation/getSegmentElevationsForBoundingBox', body, {
+  const response = await axios.post('http://127.0.0.1:5001/segmentElevation/getSegmentElevationsForBoundingBox', body, {
     headers: {
     'Content-Type': 'application/json',
     "Access-Control-Allow-Origin": "*",
     }
   });
+  // console.log(response.data);
 // console.log(response.data)
-// const temp = []
-// temp.push(response.data)
-  this.setState({ dataSet: response.data});
+const temp = []
+temp.push(response.data)
+  this.setState({ dataSet: temp });
 }
 
 render(){
