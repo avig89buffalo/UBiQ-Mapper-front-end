@@ -6,7 +6,7 @@ import road1 from "../src/cleaned/maple_ver_7_14_trip.csv.json"
 import road2 from "../src/cleaned/sweet_ver_7_14_trip.csv.json"
 import road3 from "../src/cleaned/grade_6136_ver_7_14_trip.csv.json"
 import road4 from "../src/cleaned/grade_8855_ver_7_14_trip.csv.json"
-import segs from "../src/cleaned/segs.json"
+import segs from "../src/cleaned/result.json"
 
 class App extends React.Component {
   constructor(props) {
@@ -40,8 +40,7 @@ async componentDidMount() {
   });
   // console.log(response.data);
 // console.log(response.data)
-const temp = []
-temp.push(response.data)
+  const temp = response.data
   this.setState({ dataSet: temp });
 }
 
@@ -50,7 +49,7 @@ render(){
   return (
     <div className="container">
     <header>
-      <h2>Phone Mapper</h2>
+      <h2>UBiQ Mapper</h2>
     </header>
 
     <div className="main">

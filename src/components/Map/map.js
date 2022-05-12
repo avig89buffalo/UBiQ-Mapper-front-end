@@ -21,8 +21,8 @@ export default function Map(props) {
         let total = 0
         gradeData = []
         for(const item of arr){
-            total += item[2]
-            gradeData.push(item[2])
+            total += (item[2]*10)
+            gradeData.push({velocity: item[2]*10, distance: item[3]})
         }
 
         return (total/arr.length) 
@@ -34,9 +34,9 @@ export default function Map(props) {
         var b = true
         console.log(props.dataSet)
         props.dataSet.forEach((seg, i) => {
-        for (const d of seg){
-            const grade = getAverage(d)
-            var n = d.length
+        //for (const d of seg){
+            const grade = getAverage(seg)
+            var n = seg.length
             // const step = Math.floor(d[n-1][3])
             var feature = {
                 'type': 'Feature',
@@ -45,7 +45,7 @@ export default function Map(props) {
                         ${1/(1+ Math.pow(2.718,- grade)) < 0.5 ? 224 : 31},
                         ${1/(1+ Math.pow(2.718,- grade)) < 0.5 ? 182 : 73},
                         ${1/(1+ Math.pow(2.718,- grade))})` ,
-                    'description': `Avg. elevation: ${grade}`,
+                    'description': `Avg. velocity: ${grade}`,
                     'value': grade,
                     'gradeData': gradeData,
                     // 'step': step,
@@ -53,12 +53,12 @@ export default function Map(props) {
                 },
                 'geometry': {
                     'type': 'LineString',
-                    'coordinates': d
+                    'coordinates': seg
                 }
             }
 
             allData.push(feature)
-        }})
+        })
         setMapData(allData)
     }, [props.dataSet])
 
@@ -93,7 +93,7 @@ export default function Map(props) {
             },
             'paint': {
             //'line-color': ['get', 'color'],
-            'line-color': ['interpolate', ['linear'], ['get', 'value'], -3, 'red', 0, 'green', 3, 'blue'],
+            'line-color': ['interpolate', ['linear'], ['get', 'value'], 0, 'blue',  15, 'green', 30, 'red'],
             'line-width': 3
             
             }
@@ -190,9 +190,9 @@ export default function Map(props) {
             </div>
             <div id="colorMeter">
                 <div id="red">
-                    <p>Uphill</p> 
-                    <p>Flat</p> 
-                    <p>Downhill</p> 
+                    <p>High Velocity</p> 
+                    {/* <p>Flat</p>  */}
+                    <p>Low Velocity</p> 
 
                 </div>
             </div>
